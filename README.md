@@ -49,11 +49,34 @@ struct AnimationKit_Test: View {
   @State private var emojiData: [String] = ["🚀", "🛸", "🛰", "🌌", "🌠", "🌟", "🌕", "🌍", "🪐", "🌑", "🌒", "🌓", "🌔", "🌖", "🌗", "🌘", "🌙", "🌚", "🌝", "🌞"]
   
   var body: some View {
-    VStack {
-      AnimatedForEach(emojiData, preset: .list) { emoji in
-        Text(emoji)
-          .font(.system(size: 100))
+    ScrollView {
+      LazyVStack {
+        AnimatedForEach(emojiData, preset: .list) { emoji in
+          Text(emoji)
+            .font(.system(size: 100))
+        }
       }
+    }
+  }
+}
+```
+```swift
+import SwiftUI
+import AnimationKit
+
+struct AnimationKitGrid_Test: View {
+  @State private var emojiData: [String] = ["🚀", "🛸", "🛰", "🌌", "🌠", "🌟", "🌕", "🌍", "🪐", "🌑", "🌒", "🌓", "🌔", "🌖", "🌗", "🌘", "🌙", "🌚", "🌝", "🌞"]
+  let columns = [GridItem(.adaptive(minimum: 100))]
+  
+  var body: some View {
+    ScrollView {
+      LazyVGrid(columns: columns, spacing: 20) {
+        AnimatedForEach(emojiData, preset: .grid) { emoji in
+          Text(emoji)
+            .font(.system(size: 100))
+        }
+      }
+      .padding()
     }
   }
 }
@@ -128,6 +151,20 @@ public struct AnimationConfig: Hashable, Equatable, AnimatableStyle {
     self.animation = animation
     self.maxAnimationCount = maxAnimationCount
   }
+}
+```
+```swift
+let preset: AnimationConfig = AnimationConfig(
+  opacity: .init(from: 0, to: 1),
+  offsetX: .init(from: 50, to: 0),
+  offsetY: .init(from: 10, to: 0),
+  rotation: .init(from: 0, to: 0),
+  scale: .init(from: 1.3, to: 1),
+  blur: .init(from: 8, to: 0)
+)
+
+AnimatedForEach(emojiData, preset: preset) { emoji in
+
 }
 ```
 
