@@ -11,20 +11,20 @@ public struct AnimatedStack: View {
   private let preset: AnimatableStyle
   private let views: [AnyView]
 
-  public init<Content>(
+  public init(
     preset: AnimatableStyle,
-    @ViewBuilder content: @escaping () -> TupleView<Content>
+    @ArrayViewBuilder content: @escaping () -> [AnyView]
   ) {
     self.preset = preset
-    views = content().childViews
+    views = content()
   }
 
-  public init<Content>(
+  public init(
     preset: AnimationStyle = .default,
-    @ViewBuilder content: @escaping () -> TupleView<Content>
+    @ArrayViewBuilder content: @escaping () -> [AnyView]
   ) {
     self.preset = preset
-    views = content().childViews
+    views = content()
   }
 
   public var body: some View {
